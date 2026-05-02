@@ -46,13 +46,18 @@ export const useAuth = () =>{
     }
 
     useEffect(()=>{
-        const getAndSet =  async()=>{
-            const data = await getMe()   //getMe() function depends only on token
-            setUser(data.user)
-            setLoading(false)
+        const getAndSetUser =  async()=>{
+            try {
+                const data = await getMe()   //getMe() function depends only on token
+                setUser(data.user)
+            } catch (error) {
+                console.log(error)
+            }finally{
+                setLoading(false)
+            }
         }
 
-        getAndSet()
+        getAndSetUser()
     },[])
     return {user,loading,handleLogin,handleLogout, handleRegister}
 }

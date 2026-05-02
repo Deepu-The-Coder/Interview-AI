@@ -120,8 +120,14 @@ const interviewReportSchema = new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"users"   //users  collection goes to reference
-    }
-},{
+    },
+     title:{
+            type:String,
+            required:[true, "Job title is required"]
+        }
+    
+},
+{
     timestamps:true
 })
 
