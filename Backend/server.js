@@ -7,6 +7,9 @@ const dns = require('dns')
 dns.setServers(['1.1.1.1', '8.8.8.8']);
 connectToDB()
 
+app.get('/', (req, res) => {
+  res.send('API is running 🚀')
+})
 const port = process.env.PORT || 3000;
 app.listen(3000,()=>{
     console.log("Server is running at Port 3000");
