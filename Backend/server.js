@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
   res.send('API is running 🚀')
 })
 const port = process.env.PORT || 3000;
-app.listen(3000,()=>{
+app.listen(port,()=>{
     console.log("Server is running at Port 3000");
 
 })
