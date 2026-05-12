@@ -2,6 +2,7 @@ import React ,{useState}from 'react'
 import {useNavigate} from "react-router"
 import { Link } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
+import toast from 'react-hot-toast'
 
 const Register = () => {
 
@@ -16,8 +17,11 @@ const Register = () => {
 
   const handleSubmit = async(e) => {
         e.preventDefault()
+        if(!email.trim() || !username.trim() || !password.trim()){
+            return toast.error("All fields are required.")
+        }
         await handleRegister({username,email,password})
-        navigate("/")
+        navigate("/login")
     }
 
     if(loading){
