@@ -52,8 +52,19 @@ async function generateInterviewReport({resume,selfDescription, jobDescription})
    
 }
 async function generatePdfFromHtml(htmlContent) {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage();
+    const browser = await puppeteer.launch({
+        headless: true, // Must be true in a server environment
+        args: [
+            "--no-sandbox", 
+            "--disable-setuid-sandbox", 
+            "--disable-dev-shm-usage", // Prevents memory crashes on Render's 512MB RAM
+            "--single-process"         // Keeps resource usage low
+        ],
+        // If you still get "Chrome not found", explicitly set this path:
+        // executablePath: '/usr/bin/google-chrome-stable' 
+    });
+    try {
+        const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" })
 
     const pdfBuffer = await page.pdf({
@@ -65,9 +76,14 @@ async function generatePdfFromHtml(htmlContent) {
         }
     })
 
-    await browser.close()
-
     return pdfBuffer
+    } catch (error) {
+        console.log(error)
+    }
+    finally{
+        await browser.close()
+    }
+
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
