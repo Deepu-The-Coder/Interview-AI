@@ -19,7 +19,7 @@ const Register = () => {
       return toast.error("All fields are required.")
     }
     await handleRegister({ username, email, password })
-    navigate("/login")
+    navigate("/")
   }
 
   if (loading) {

@@ -48,7 +48,12 @@ async function registerUserController(req,res){
         {expiresIn:"1d"}
     )
     //set token to cookies
-    res.cookie("token", token)
+    res.cookie("token",token,{
+        httpOnly:true,
+        secure:true,
+        sameSite:"none",
+        maxAge:24 * 60 * 60 * 1000
+    })
 
     res.status(201).json({
         message: "User registered successfully",
@@ -90,6 +95,7 @@ async function loginUserController(req,res){
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
     )
+    //do this so that user remains logged in while refresh
     res.cookie("token",token,{
         httpOnly:true,
         secure:true,
