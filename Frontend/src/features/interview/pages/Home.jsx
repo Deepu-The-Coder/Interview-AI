@@ -2,16 +2,114 @@ import React, { useState, useRef } from 'react'
 import "../style/home.scss"
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate } from 'react-router'
+import { Home as HomeIcon } from 'lucide-react'
 
 
 const Home = () => {
+    
+    const navigate = useNavigate()
+    const resumeInputRef = useRef()
+
+    const [file, setFile] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [isUploading, setIsUploading] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
     const { loading, generateReport,reports } = useInterview()
     const [ jobDescription, setJobDescription ] = useState("")
     const [ selfDescription, setSelfDescription ] = useState("")
-    const resumeInputRef = useRef()
+    const [isDragging, setIsDragging] = useState(false);
 
-    const navigate = useNavigate()
+    // Drag & Drop Handlers
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const droppedFile = e.dataTransfer.files[0];
+        if (droppedFile && droppedFile.type === "application/pdf") {
+            // Reuse your existing file change logic
+            processFile(droppedFile); 
+        } else {
+            toast.error("Please upload a PDF file");
+        }
+    };
+
+    // Extracting your file processing into a reusable function
+    const processFile = (selectedFile) => {
+        setFile(selectedFile);
+        setIsUploading(true);
+        setUploadProgress(0);
+
+        const url = URL.createObjectURL(selectedFile);
+        setPreviewUrl(url);
+
+        const interval = setInterval(() => {
+            setUploadProgress((prev) => {
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    setIsUploading(false);
+                    return 100;
+                }
+                return prev + 10;
+            });
+        }, 100);
+    };
+
+
+
+    const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+        setFile(selectedFile);
+        setIsUploading(true);
+        setUploadProgress(0);
+
+        // Create preview URL
+        const url = URL.createObjectURL(selectedFile);
+        setPreviewUrl(url);
+
+        // Simulate upload progress
+        const interval = setInterval(() => {
+            setUploadProgress((prev) => {
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    setIsUploading(false);
+                    return 100;
+                    }
+                return prev + 10;
+                });
+            }, 100);
+        }
+    };
+
+    const handleRemoveFile = (e) => {
+        e.preventDefault(); // Prevent triggering the label click
+        e.stopPropagation();
+        setFile(null);
+        setPreviewUrl(null);
+        setUploadProgress(0);
+        setIsUploading(false);
+        if (resumeInputRef.current) resumeInputRef.current.value = "";
+    };
+
+    const openPdf = (e) => {
+        if (previewUrl && !isUploading) {
+            window.open(previewUrl, '_blank');
+        }
+    };
 
     const handleGenerateReport = async () => {
         const resumeFile = resumeInputRef.current.files[ 0 ]
@@ -29,6 +127,14 @@ const Home = () => {
 
     return (
         <div className='home-page'>
+            <button 
+                onClick={() => navigate("/")} 
+                className="home-nav-btn"
+                aria-label="Go to Home"
+            >
+                <HomeIcon size={18} />
+                <span>Home</span>
+            </button>
 
             {/* Page Header */}
             <header className='page-header'>
@@ -55,7 +161,8 @@ const Home = () => {
                             placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
                             maxLength={5000}
                         />
-                        <div className='char-counter'>0 / 5000 chars</div>
+                        <div className='char-counter'>
+                            {jobDescription.length}/ 5000 chars</div>
                     </div>
 
                     {/* Vertical Divider */}
@@ -70,21 +177,73 @@ const Home = () => {
                             <h2>Your Profile</h2>
                         </div>
 
-                        {/* Upload Resume */}
                         <div className='upload-section'>
-                            <label className='section-label'>
-                                Upload Resume
-                                <span className='badge badge--best'>Best Results</span>
-                            </label>
-                            <label className='dropzone' htmlFor='resume'>
-                                <span className='dropzone__icon'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" /><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" /></svg>
-                                </span>
-                                <p className='dropzone__title'>Click to upload or drag &amp; drop</p>
-                                <p className='dropzone__subtitle'>PDF or DOCX (Max 5MB)</p>
-                                <input ref={resumeInputRef} hidden type='file' id='resume' name='resume' accept='.pdf,.docx' />
-                            </label>
-                        </div>
+    <label className='section-label'>
+        Upload Resume <span className='badge badge--best'>Best Results</span>
+    </label>
+
+    <div 
+        className={`dropzone-container ${file ? 'has-file' : ''} ${isDragging ? 'dragging' : ''}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+    >
+        <label 
+            className={`dropzone ${isUploading ? 'uploading' : ''} ${file && !isUploading ? 'success' : ''}`} 
+            htmlFor={!file ? 'resume' : ''}
+            onClick={file && !isUploading ? openPdf : undefined}
+        >
+            {!file ? (
+                <>
+                    <span className='dropzone__icon'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="16 16 12 12 8 16" />
+                            <line x1="12" y1="12" x2="12" y2="21" />
+                            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+                        </svg>
+                    </span>
+                    <p className='dropzone__title'>
+                        {isDragging ? "Drop to upload" : "Click to upload or drag & drop"}
+                    </p>
+                </>
+            ) : isUploading ? (
+                <div className="progress-container">
+                    <p>Uploading... {uploadProgress}%</p>
+                    <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
+                    </div>
+                </div>
+            ) : (
+                <div className="file-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <p className="file-name">{file.name}</p>
+                    <span className="view-hint">(Click to view)</span>
+                </div>
+            )}
+
+            <input 
+                ref={resumeInputRef} 
+                hidden 
+                type='file' 
+                id='resume' 
+                accept='.pdf' 
+                onChange={handleFileChange} 
+            />
+        </label>
+
+        {file && (
+            <button className="remove-file-btn" onClick={handleRemoveFile}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        )}
+    </div>
+</div>
 
                         {/* OR Divider */}
                         <div className='or-divider'><span>OR</span></div>
@@ -122,23 +281,6 @@ const Home = () => {
                     </button>
                 </div>
             </div>
-
-            {/* Recent Reports List */}
-            {/* {reports.length > 0 && (
-                <section className='recent-reports'>
-                    <h2>My Recent Interview Plans</h2>
-                    <ul className='reports-list'>
-                        {reports.map(report => (
-                            <li key={report._id} className='report-item' onClick={() => navigate(`/interview/${report._id}`)}>
-                                <h3>{report.title || 'Untitled Position'}</h3>
-                                <p className='report-meta'>Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
-                                <p className={`match-score ${report.matchScore >= 80 ? 'score--high' : report.matchScore >= 60 ? 'score--mid' : 'score--low'}`}>Match Score: {report.matchScore}%</p>
-                            </li>
-                        ))}
-                    </ul>
-                </section>
-            )} */}
-
             {/* Page Footer */}
             <footer className='page-footer'>
                 <a href='#'>Privacy Policy</a>

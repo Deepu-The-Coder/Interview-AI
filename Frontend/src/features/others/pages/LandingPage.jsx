@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Target, BarChart3, Zap, LayoutDashboard, User, LogOut, ArrowRight } from 'lucide-react';
+import { Target, BarChart3, Zap, User, LogOut, ArrowRight, RouteIcon, Menu, X } from 'lucide-react';
 import '../style/LandingPage.scss';
 import { useAuth } from '../../auth/hooks/useAuth';
 import toast from 'react-hot-toast';
 
 const LandingPage = () => {
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, handleLogout } = useAuth(); 
   const navigate = useNavigate();
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const onLogout = async () => {
     try {
         await handleLogout();
         toast.success("Logged out successfully");
+        setIsMenuOpen(false);
         navigate("/");
     } catch (error) {
         toast.error("Logout failed");
@@ -24,17 +27,37 @@ const LandingPage = () => {
     <div className="landing-wrapper">
       <nav className="landing-nav">
         <div className="logo">Interview<span>AI</span></div>
+
+        {/* The ONLY thing visible on mobile besides the logo */}
+        <button className="mobile-menu-toggle" onClick={toggleMenu} aria-label="Toggle Menu">
+          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
         
-        {/* Centered Boxed Menu */}
-        <div className="nav-center-container">
+        {/* Menu Overlay */}
+        <div className={`nav-center-container ${isMenuOpen ? 'active' : ''}`}>
           <div className="nav-menu-box">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/reports" className="nav-link">Reports</Link>
-            <Link to="/interview" className="nav-link">Generate Report</Link>
+            <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
+            <Link to="/reports" className="nav-link" onClick={() => setIsMenuOpen(false)}>Reports</Link>
+            <Link to="/interview" className="nav-link" onClick={() => setIsMenuOpen(false)}>Generate Report</Link>
+            
+            {/* Auth links moved INSIDE the menu for mobile */}
+            <div className="mobile-auth-wrapper">
+              {user ? (
+                <button onClick={onLogout} className="mobile-logout-btn">
+                  Logout ({user.username || "Profile"})
+                </button>
+              ) : (
+                <>
+                  <Link to="/login" className="nav-link" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                  <Link to="/register" className="mobile-start-btn" onClick={() => setIsMenuOpen(false)}>Register</Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="nav-right">
+        {/* Visible ONLY on Laptop/Desktop */}
+        <div className="nav-right desktop-auth">
           {user ? (
             <div className="user-profile-box">
               <div className="user-info">
@@ -48,7 +71,7 @@ const LandingPage = () => {
           ) : (
             <>
               <Link to="/login" className="login-link">Login</Link>
-              <Link to="/register" className="start-btn">Start Free</Link>
+              <Link to="/register" className="start-btn">Register</Link>
             </>
           )}
         </div>
@@ -68,7 +91,6 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* Feature Section */}
       <section className="features-section">
         <div className="features-grid">
           <div className="feature-card">
@@ -85,6 +107,11 @@ const LandingPage = () => {
             <Zap className="icon" />
             <h3>AI Q&A</h3>
             <p>Personalized behavioral and technical question bank.</p>
+          </div>
+          <div className="feature-card">
+            <RouteIcon className="icon" />
+            <h3>Phase-wise Planning</h3>
+            <p>Deep analysed plan to land your dream job.</p>
           </div>
         </div>
       </section>

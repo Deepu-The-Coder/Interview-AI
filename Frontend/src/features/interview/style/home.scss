@@ -7,7 +7,7 @@ $bg-input:       #1e2535;
 $border-color:   #2a3348;
 $text-primary:   #e6edf3;
 $text-muted:     #7d8590;
-$accent:         #ff2d78;
+$accent:          #ff2d55;
 $accent-alt:     #ff6b9d;
 $badge-required: #ff2d78;
 $badge-best:     #ff2d78;
@@ -372,3 +372,275 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         }
     }
 }
+
+
+.dropzone-container {
+    position: relative;
+    transition: all 0.3s ease;
+
+    &.dragging {
+        .dropzone {
+            border: 2px dashed #ff2d55;
+            background: rgba(255, 45, 85, 0.08);
+            transform: scale(1.02);
+            
+            .dropzone__icon {
+                color: #ff2d55;
+                animation: bounce 0.5s infinite alternate;
+            }
+        }
+    }
+    
+    &.has-file .dropzone {
+        cursor: pointer;
+        border-style: solid;
+        border: 2px dashed rgba(255, 255, 255, 0.1);
+    
+    &.success {
+        border-style: solid;
+        border-color: #34c759;
+    }
+    }
+}
+
+.progress-container {
+    width: 100%;
+    padding: 0 20px;
+    p { font-size: 0.8rem; margin-bottom: 8px; color: #a1a1a6; }
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    
+    .progress-fill {
+        height: 100%;
+        background: #ff2d55;
+        transition: width 0.2s ease;
+    }
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    .file-name { color: #34c759; font-weight: 600; font-size: 0.9rem; }
+    .view-hint { font-size: 0.7rem; color: #666; }
+}
+
+.remove-file-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #1c1c1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff2d55;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.2s;
+
+    &:hover {
+        background: #ff2d55;
+        color: white;
+        transform: scale(1.1);
+    }
+}
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE DESIGN (MOBILE + TABLET)
+   Add this at the VERY END of your SCSS file
+   This will NOT disturb desktop layout
+───────────────────────────────────────────────────────────── */
+
+/* ── Tablet ───────────────────────────────────────────── */
+@media (max-width: 992px) {
+    .interview-card {
+        max-width: 100%;
+    }
+
+    .interview-card__body {
+        flex-direction: column;
+    }
+
+    .panel-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .recent-reports {
+        max-width: 100%;
+
+        .reports-list {
+            .report-item {
+                min-width: calc(50% - 0.5rem);
+            }
+        }
+    }
+}
+
+/* ── Mobile ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+    .home-page {
+        padding: 1.25rem 1rem 2rem;
+        gap: 1.5rem;
+    }
+
+    /* Header */
+    .page-header {
+        h1 {
+            font-size: 1.8rem;
+            line-height: 1.25;
+        }
+
+        p {
+            font-size: 0.9rem;
+            max-width: 100%;
+            padding: 0 0.25rem;
+        }
+    }
+
+    /* Main Card */
+    .interview-card {
+        border-radius: 0.85rem;
+
+        &__body {
+            flex-direction: column;
+            min-height: auto;
+        }
+
+        &__footer {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: stretch;
+            padding: 1rem;
+
+            .footer-info {
+                text-align: center;
+            }
+        }
+    }
+
+    .panel-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    /* Panels */
+    .panel {
+        padding: 1rem;
+
+        &__header {
+            flex-wrap: wrap;
+            gap: 0.4rem;
+
+            h2 {
+                font-size: 0.95rem;
+            }
+        }
+
+        &__textarea {
+            min-height: 220px;
+            font-size: 0.85rem;
+            padding: 0.9rem;
+
+            &--short {
+                height: 110px;
+                min-height: 110px;
+            }
+        }
+
+        &--left {
+            .char-counter {
+                bottom: 1.7rem;
+                right: 1.5rem;
+                font-size: 0.7rem;
+            }
+        }
+    }
+
+    /* Upload */
+    .dropzone {
+        padding: 1.25rem 0.75rem;
+
+        &__title {
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        &__subtitle {
+            font-size: 0.72rem;
+            text-align: center;
+        }
+    }
+
+    /* OR Divider */
+    .or-divider {
+        gap: 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    /* Info Box */
+    .info-box {
+        padding: 0.75rem;
+
+        p {
+            font-size: 0.76rem;
+        }
+    }
+
+    /* Button */
+    .generate-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.9rem 1rem;
+        font-size: 0.88rem;
+    }
+
+    /* Recent Reports */
+    .recent-reports {
+        max-width: 100%;
+
+        .reports-list {
+            flex-direction: column;
+
+            .report-item {
+                width: 100%;
+            }
+        }
+    }
+
+    /* Footer */
+    .page-footer {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+
+        a {
+            font-size: 0.75rem;
+        }
+    }
+
+    /* Remove Button */
+    .remove-file-btn {
+        width: 24px;
+        height: 24px;
+        top: -8px;
+        right: -8px;
+    }
+}
+

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate, useParams } from 'react-router'
-
+import { Home as HomeIcon } from 'lucide-react'
 
 
 const NAV_ITEMS = [
@@ -39,14 +39,14 @@ const QuestionCard = ({ item, index }) => {
     )
 }
 
-const RoadMapDay = ({ day }) => (
+const RoadMapDay = ({ phase }) => (
     <div className='roadmap-day'>
         <div className='roadmap-day__header'>
-            <span className='roadmap-day__badge'>Day {day.day}</span>
-            <h3 className='roadmap-day__focus'>{day.focus}</h3>
+            <span className='roadmap-day__badge'>Phase {phase.day}</span>
+            <h3 className='roadmap-day__focus'>{phase.focus}</h3>
         </div>
         <ul className='roadmap-day__tasks'>
-            {day.tasks.map((task, i) => (
+            {phase.tasks.map((task, i) => (
                 <li key={i}>
                     <span className='roadmap-day__bullet' />
                     {task}
@@ -84,6 +84,15 @@ const Interview = () => {
 
 
     return (
+        <>
+        <button 
+                onClick={() => navigate("/")} 
+                className="home-nav-btn"
+                aria-label="Go to Home"
+            >
+                <HomeIcon size={18} />
+                <span>Home</span>
+            </button>
         <div className='interview-page'>
             <div className='interview-layout'>
 
@@ -146,11 +155,11 @@ const Interview = () => {
                         <section>
                             <div className='content-header'>
                                 <h2>Preparation Road Map</h2>
-                                <span className='content-header__count'>{report.preparationPlan.length}-day plan</span>
+                                <span className='content-header__count'>{report.preparationPlan.length}-phase plan</span>
                             </div>
                             <div className='roadmap-list'>
-                                {report.preparationPlan.map((day) => (
-                                    <RoadMapDay key={day.day} day={day} />
+                                {report.preparationPlan.map((phase) => (
+                                    <RoadMapDay key={phase.phase} phase={phase} />
                                 ))}
                             </div>
                         </section>
@@ -189,6 +198,7 @@ const Interview = () => {
                 </aside>
             </div>
         </div>
+        </>
     )
 }
 
