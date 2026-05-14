@@ -24,7 +24,7 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
 
   .logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 800;
     span { color: $primary-red; }
   }
@@ -61,14 +61,14 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       .nav-menu-box {
         background: $nav-glass;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 0.5rem 1.2rem;
+        padding: 0.8rem 2rem;
         border-radius: 12px;
         display: flex;
         gap: 1.5rem;
         .nav-link {
           text-decoration: none;
           color: $text-muted;
-          font-size: 0.9rem;
+          font-size: rem;
           transition: $transition;
           &:hover { color: $text-main; }
         }
@@ -121,8 +121,8 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           border-top: 1px solid rgba(255, 255, 255, 0.1);
 
           .mobile-start-btn {
-            background: $text-main;
-            color: $bg-dark;
+            background: #ff3344;
+            color: whitesmoke;
             padding: 0.8rem 2.5rem;
             border-radius: 10px;
             text-decoration: none;
@@ -160,8 +160,8 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .login-link { color: $text-main; text-decoration: none; font-size: 0.9rem; }
   .start-btn {
-    background: $text-main;
-    color: $bg-dark;
+    background: #ff3344;
+    color: whitesmoke;
     padding: 0.6rem 1.2rem;
     border-radius: 8px;
     text-decoration: none;
@@ -200,4 +200,14 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       p { color: $text-muted; font-size: 0.95rem; line-height: 1.5; }
     }
   }
+}
+
+.badge {
+    background-color: #ff0015;
+    font-size: 0.8em;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }

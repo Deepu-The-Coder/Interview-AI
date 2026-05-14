@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'
 import { Home } from 'lucide-react' // Import Home icon
+import Loading from '../../others/components/Loading'
 
 const Register = () => {
   const navigate = useNavigate()
@@ -24,10 +25,7 @@ const Register = () => {
 
   if (loading) {
     return (
-      <main className="auth-loading">
-        <div className="spinner"></div>
-        <h1>Loading...</h1>
-      </main>
+      <Loading/>
     )
   }
 

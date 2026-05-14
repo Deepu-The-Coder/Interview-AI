@@ -482,3 +482,156 @@ $severity-low: #3fb950;
 .home-nav-btn{
     margin-bottom: 100x;
 }
+
+
+@media (max-width: 768px) {
+
+    .interview-page {
+        padding: 0.75rem;
+    }
+
+    .interview-layout {
+        border-radius: 0.85rem;
+    }
+
+    /* Top Navigation */
+    .interview-nav {
+        padding: 0.85rem;
+        gap: 0.5rem;
+
+        &__item {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.82rem;
+            border-radius: 0.45rem;
+        }
+
+        &__icon {
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+
+    /* Home Button Fix */
+    .home-nav-btn {
+        margin-bottom: 0 !important;
+        flex-shrink: 0;
+    }
+
+    /* Main Content */
+    .interview-content {
+        padding: 1rem;
+        padding-bottom: 2rem;
+    }
+
+    .content-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+
+        h2 {
+            font-size: 1rem;
+        }
+
+        &__count {
+            font-size: 0.72rem;
+        }
+    }
+
+    /* Question Cards */
+    .q-list {
+        gap: 0.65rem;
+    }
+
+    .q-card {
+
+        &__header {
+            padding: 0.85rem;
+            gap: 0.6rem;
+        }
+
+        &__question {
+            font-size: 0.84rem;
+            line-height: 1.45;
+        }
+
+        &__body {
+            padding: 0.85rem;
+            gap: 0.7rem;
+        }
+
+        &__section {
+            p {
+                font-size: 0.8rem;
+            }
+        }
+
+        &__chevron {
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+
+    /* Roadmap */
+    .roadmap-list {
+        &::before {
+            left: 20px;
+        }
+    }
+
+    .roadmap-day {
+        padding-left: 2.75rem;
+
+        &::before {
+            left: 13px;
+            width: 12px;
+            height: 12px;
+        }
+
+        &__focus {
+            font-size: 0.88rem;
+        }
+
+        &__tasks li {
+            font-size: 0.8rem;
+        }
+    }
+
+    /* Sidebar */
+    .interview-sidebar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
+        gap: 1.25rem;
+    }
+
+    /* Match Score */
+    .match-score {
+
+        &__label {
+            font-size: 0.72rem;
+        }
+
+        &__ring {
+            width: 78px;
+            height: 78px;
+        }
+
+        &__value {
+            font-size: 1.35rem;
+        }
+
+        &__sub {
+            font-size: 0.72rem;
+        }
+    }
+
+    /* Skill Tags */
+    .skill-tag {
+        font-size: 0.72rem;
+        padding: 0.28rem 0.6rem;
+    }
+}

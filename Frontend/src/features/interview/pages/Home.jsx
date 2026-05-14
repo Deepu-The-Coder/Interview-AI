@@ -3,6 +3,7 @@ import "../style/home.scss"
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate } from 'react-router'
 import { Home as HomeIcon } from 'lucide-react'
+import Loading from '../../others/components/Loading.jsx'
 
 
 const Home = () => {
@@ -119,9 +120,7 @@ const Home = () => {
 
     if (loading) {
         return (
-            <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
-            </main>
+            <Loading/>
         )
     }
 

@@ -3,6 +3,7 @@ import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate, useParams } from 'react-router'
 import { Home as HomeIcon } from 'lucide-react'
+import Loading from '../../others/components/Loading.jsx'
 
 
 const NAV_ITEMS = [
@@ -72,9 +73,7 @@ const Interview = () => {
 
     if (loading || !report) {
         return (
-            <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
-            </main>
+            <Loading/>
         )
     }
 
@@ -85,14 +84,6 @@ const Interview = () => {
 
     return (
         <>
-        <button 
-                onClick={() => navigate("/")} 
-                className="home-nav-btn"
-                aria-label="Go to Home"
-            >
-                <HomeIcon size={18} />
-                <span>Home</span>
-            </button>
         <div className='interview-page'>
             <div className='interview-layout'>
 
