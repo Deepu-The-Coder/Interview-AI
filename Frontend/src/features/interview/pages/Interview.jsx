@@ -112,6 +112,35 @@ const Interview = () => {
 
                 <div className='interview-divider' />
 
+                <div className='mobile-topbar'>
+
+                <div className='mobile-tabs'>
+                    {NAV_ITEMS.map(item => (
+                        <button
+                            key={item.id}
+                            className={`mobile-tab ${activeNav === item.id ? 'mobile-tab--active' : ''}`}
+                            onClick={() => setActiveNav(item.id)}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
+                </div>
+
+                <div className={`mobile-score ${scoreColor}`}>
+                    {report.matchScore}%
+                </div>
+
+            </div>
+
+            <div className='mobile-download'>
+            <button
+                onClick={() => { getResumePdf(interviewId) }}
+                className='button primary-button'
+            >
+                Download Resume
+            </button>
+        </div>
+
                 {/* ── Center Content ── */}
                 <main className='interview-content'>
                     {activeNav === 'technical' && (

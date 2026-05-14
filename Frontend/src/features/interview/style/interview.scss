@@ -484,50 +484,154 @@ $severity-low: #3fb950;
 }
 
 
+/* ─────────────────────────────────────────────
+   MOBILE EXPERIENCE
+───────────────────────────────────────────── */
+
+.mobile-topbar,
+.mobile-download {
+    display: none;
+}
+
+/* ─────────────────────────────────────────────
+   MOBILE
+───────────────────────────────────────────── */
+
 @media (max-width: 768px) {
 
     .interview-page {
-        padding: 0.75rem;
+        padding: 0;
     }
 
     .interview-layout {
-        border-radius: 0.85rem;
+        border-radius: 0;
+        border: none;
+        min-height: 100vh;
+        background: $bg-page;
     }
 
-    /* Top Navigation */
-    .interview-nav {
-        padding: 0.85rem;
+    /* Hide desktop sidebars */
+    .interview-nav,
+    .interview-sidebar,
+    .interview-divider {
+        display: none;
+    }
+
+    /* Main content full width */
+    .interview-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 1rem;
+        padding-top: 5.5rem;
+        padding-bottom: 7rem;
+        overflow-x: hidden;
+    }
+
+    /* ─────────────────────────
+       TOP BAR
+    ───────────────────────── */
+
+    .mobile-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        z-index: 100;
+
+        padding: 0.85rem 1rem;
+
+        background: rgba(13, 17, 23, 0.95);
+        backdrop-filter: blur(10px);
+
+        border-bottom: 1px solid $border-color;
+    }
+
+    .mobile-tabs {
+        display: flex;
         gap: 0.5rem;
 
-        &__item {
-            padding: 0.6rem 0.8rem;
-            font-size: 0.82rem;
-            border-radius: 0.45rem;
-        }
+        overflow-x: auto;
 
-        &__icon {
-            svg {
-                width: 16px;
-                height: 16px;
-            }
+        &::-webkit-scrollbar {
+            display: none;
         }
     }
 
-    /* Home Button Fix */
-    .home-nav-btn {
-        margin-bottom: 0 !important;
+    .mobile-tab {
+        border: none;
+        background: $bg-panel;
+
+        color: $text-muted;
+
+        padding: 0.65rem 0.9rem;
+
+        border-radius: 999px;
+
+        font-size: 0.75rem;
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+
         flex-shrink: 0;
+
+        &--active {
+            background: rgba($accent, 0.12);
+            color: $accent;
+            border: 1px solid rgba($accent, 0.2);
+        }
     }
 
-    /* Main Content */
-    .interview-content {
-        padding: 1rem;
-        padding-bottom: 2rem;
+    /* ─────────────────────────
+       MATCH SCORE
+    ───────────────────────── */
+
+    .mobile-score {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 0.82rem;
+        font-weight: 700;
+
+        flex-shrink: 0;
+
+        border: 3px solid;
     }
+
+    .mobile-score.score--high {
+        border-color: $severity-low;
+        color: $severity-low;
+    }
+
+    .mobile-score.score--mid {
+        border-color: $severity-medium;
+        color: $severity-medium;
+    }
+
+    .mobile-score.score--low {
+        border-color: $severity-high;
+        color: $severity-high;
+    }
+
+    /* ─────────────────────────
+       CONTENT
+    ───────────────────────── */
 
     .content-header {
-        flex-wrap: wrap;
-        gap: 0.5rem;
         margin-bottom: 1rem;
 
         h2 {
@@ -539,57 +643,32 @@ $severity-low: #3fb950;
         }
     }
 
-    /* Question Cards */
-    .q-list {
-        gap: 0.65rem;
-    }
-
     .q-card {
 
         &__header {
-            padding: 0.85rem;
-            gap: 0.6rem;
+            padding: 0.9rem;
         }
 
         &__question {
             font-size: 0.84rem;
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
         &__body {
-            padding: 0.85rem;
-            gap: 0.7rem;
+            padding: 0.9rem;
         }
 
-        &__section {
-            p {
-                font-size: 0.8rem;
-            }
-        }
-
-        &__chevron {
-            svg {
-                width: 16px;
-                height: 16px;
-            }
+        &__section p {
+            font-size: 0.8rem;
         }
     }
 
-    /* Roadmap */
-    .roadmap-list {
-        &::before {
-            left: 20px;
-        }
-    }
+    /* ─────────────────────────
+       ROADMAP
+    ───────────────────────── */
 
     .roadmap-day {
         padding-left: 2.75rem;
-
-        &::before {
-            left: 13px;
-            width: 12px;
-            height: 12px;
-        }
 
         &__focus {
             font-size: 0.88rem;
@@ -600,38 +679,32 @@ $severity-low: #3fb950;
         }
     }
 
-    /* Sidebar */
-    .interview-sidebar {
-        flex-direction: column;
-        align-items: stretch;
+    /* ─────────────────────────
+       DOWNLOAD BUTTON
+    ───────────────────────── */
+
+    .mobile-download {
+        display: block;
+
+        position: fixed;
+
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        z-index: 100;
+
         padding: 1rem;
-        gap: 1.25rem;
-    }
 
-    /* Match Score */
-    .match-score {
+        background: rgba(13, 17, 23, 0.95);
 
-        &__label {
-            font-size: 0.72rem;
+        backdrop-filter: blur(10px);
+
+        border-top: 1px solid $border-color;
+
+        .button {
+            width: 100%;
+            justify-content: center;
         }
-
-        &__ring {
-            width: 78px;
-            height: 78px;
-        }
-
-        &__value {
-            font-size: 1.35rem;
-        }
-
-        &__sub {
-            font-size: 0.72rem;
-        }
-    }
-
-    /* Skill Tags */
-    .skill-tag {
-        font-size: 0.72rem;
-        padding: 0.28rem 0.6rem;
     }
 }
