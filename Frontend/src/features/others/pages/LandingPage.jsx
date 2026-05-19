@@ -79,7 +79,7 @@ const LandingPage = () => {
 
       <header className="hero-section">
         <div className="hero-content">
-          <span className="badge">AI-Powered Career Intelligence</span>
+          <span className="heading">AI-Powered Career Intelligence</span>
           <h1>Master Your Next <span className="highlight">Interview</span></h1>
           <p>
             Don't apply blindly. Get a deep-dive analysis of your resume against any 

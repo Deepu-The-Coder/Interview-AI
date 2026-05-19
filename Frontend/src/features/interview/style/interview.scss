@@ -597,6 +597,9 @@ $severity-low: #3fb950;
     .mobile-score {
         width: 52px;
         height: 52px;
+        position: fixed;
+        top: 70px;
+        right: 8px;
 
         border-radius: 50%;
 

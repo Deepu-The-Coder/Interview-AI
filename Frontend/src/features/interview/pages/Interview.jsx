@@ -43,7 +43,7 @@ const QuestionCard = ({ item, index }) => {
 const RoadMapDay = ({ phase }) => (
     <div className='roadmap-day'>
         <div className='roadmap-day__header'>
-            <span className='roadmap-day__badge'>Phase {phase.day}</span>
+            <span className='roadmap-day__badge'>Phase {phase.phase} </span>
             <h3 className='roadmap-day__focus'>{phase.focus}</h3>
         </div>
         <ul className='roadmap-day__tasks'>
@@ -91,6 +91,7 @@ const Interview = () => {
                 <nav className='interview-nav'>
                     <div className="nav-content">
                         <p className='interview-nav__label'>Sections</p>
+                        
                         {NAV_ITEMS.map(item => (
                             <button
                                 key={item.id}

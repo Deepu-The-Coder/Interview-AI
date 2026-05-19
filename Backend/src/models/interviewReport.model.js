@@ -30,7 +30,7 @@ const mongoose = require("mongoose")
  *} 
  *}]
  * preparation plan:[{
- *              day:Number
+ *              phase:Number
  *              focus: String
  *              tasks:[String]             
  * }]

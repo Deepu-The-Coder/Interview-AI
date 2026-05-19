@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { useInterview } from '../hooks/useInterview.js'
-import { FileText, Calendar, ChevronRight, PlusCircle } from 'lucide-react';
+import { FileText, Calendar, ChevronRight, PlusCircle, Home as HomeIcon } from 'lucide-react';
+
 import '../style/reports.scss';
 
 const Reports = () => {
@@ -10,6 +11,14 @@ const Reports = () => {
 
     return (
         <div className="reports-page-wrapper">
+            <button 
+                onClick={() => navigate("/")} 
+                className="home-nav-btn"
+                aria-label="Go to Home"
+            >
+                <HomeIcon size={18} />
+                <span>Home</span>
+            </button>
             <header className="reports-header">
                 <div>
                     <h1>My Interview <span className="highlight">Reports</span></h1>
